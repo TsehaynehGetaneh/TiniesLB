@@ -1,0 +1,26 @@
+<!-- pages/all_products.html -->
+{% extends '_base.html' %}
+{% load static %}
+
+{% block body %}
+
+    {% include 'include/navbar.html' %}
+
+    <div id="hiddenBlock" class="hidden-block">
+        {% include 'include/cart.html' %}
+    </div>
+
+    <section>
+        <div class="categories-all">
+            {% for category in all_categories %}
+                <div class="all-top"
+                    style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)), url({% if category.background_image %}{{ category.background_image.url }}{% else %}{% static 'assets/fluffy-toy-texture-close-up.jpg' %}{% endif %}) ;">
+                    <a href="{% url 'products_by_category' category.slug %}"><h1>{{ category.name }}</h1></a>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+{% include 'include/footer.html' %}
+
+{% endblock %}

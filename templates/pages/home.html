@@ -1,0 +1,133 @@
+<!-- pages/home.html -->
+{% extends '_base.html' %}
+{% load static %}
+
+{% block body %}
+   {% include 'include/navbar.html' %}
+
+    <div id="hiddenBlock" class="hidden-block">
+        {% include 'include/cart.html' %}
+    </div>
+
+
+    <header>
+        <div class="header">
+            <div class="header-content">
+                <div class="header-info">
+                    <div class="header-title">Playful Toys, Healing Tools</div>
+                    <div class="header-subtitle">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </div>
+                    <div class="header-btn">
+                        <a href="{% url 'all' %}">Explore our products</a>
+                    </div>
+                </div>
+                <div class="header-img"><img src="{% static '/assets/giraffe-header.png' %}" alt="girrafe" loading="lazy"></div>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <div class="categories-home">
+            <div class="sellers-top">
+                <div class="sellers-top-l">
+                        <div class="sellers-top-section">Our categories</div>
+                        <div class="sellers-top-title">Best categories</div>
+                    </div>
+                    <div class="sellers-top-link"><a href="{% url 'all' %}">View all</a></div>
+                </div>
+                <div class="sellers-bottom">
+                    {% for category in all_categories %}
+                        <div class="all-top"
+                            style="background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.8)), url({% if category.background_image %}{{ category.background_image.url }}{% else %}{% static 'assets/fluffy-toy-texture-close-up.jpg' %}{% endif %}) ;">
+                            <a href="{% url 'products_by_category' category.slug %}"><h1>{{ category.name }}</h1></a>
+                        </div>
+                    {% endfor %} 
+                </div>
+            </div>
+    </section>
+
+    <section>
+        <div class="sellers">
+            <div class="sellers-content">
+                <div class="sellers-top">
+                    <div class="sellers-top-l">
+                        <div class="sellers-top-section">Our faves</div>
+                        <div class="sellers-top-title">Best sellers</div>
+                    </div>
+                    <div class="sellers-top-link"><a href="{% url 'all' %}">View all</a></div>
+                </div>
+                <div class="sellers-bottom">
+                     {% for product in recent_products %}
+                        <div class="product-box menu-item" data-menu-item-id="{{ product.id }}">
+                            <div class="sellers-box-img" style="background: url({% if product.image1 %}{{ product.image1.url }}{% else %}{% static 'assets/fluffy-toy-texture-close-up.jpg' %}{% endif %});"> </div>
+                            <div class="sellers-box-bottom">
+                                <div class="sellers-box-t">
+                                    <div class="inline-detail"><span class="sellers-box-dollar">$</span><div class="sellers-box-price" data-menu-item-price="{{ product.price }}">{{ product.price }}</div></div>
+                                    <button id="confirm-add-to-cart" class="open-confirmation-popup" data-menu-item="{{ product.id }}"><i class="fa-solid fa-cart-shopping"></i></button>
+                                </div>
+                                <div class="sellers-box-b">
+                                    <div class="sellers-box-title" data-menu-item-name="{{ product.header }}"><a href="{% url 'product_detail' slug=product.slug %}">{{ product.header }}</a></div>
+                                </div>
+                            </div>
+                            <div id="confirmation-popup-{{ product.id }}" class="popup">
+                                <div class="popup-content">
+                                    <p>Are you sure you want to add this item to the cart?</p>
+                                    <button class="addToCartBtn popup-btn" data-menu-item="{{ product.id }}">Yes</button>
+                                    <button class="popup-btn cancel-add-to-cart">No</button>
+                                </div>
+                            </div>
+                        </div>
+                     {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section>
+        <div class="whyus">
+            <div class="whyus-content">
+                <div class="whyus-block">
+                    <div class="whyus-info">
+                        <h2>Why Us?</h2>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                            laboris nisi ut aliquip ex ea commodo consequat.
+                        </p>
+                        <a href="{% url 'all' %}">All goods</a>
+                    </div>
+                    <div class="whyus-r">
+                        <div class="whyus-r-img"></div>
+                        <img src="{% static '/assets/giraffe2.png' %}" alt="giraffe" loading="lazy">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="priority">
+        <div class="priority-items">
+            <div class="priority-item">
+                <img src="{% static '/assets/delivery-truck.png' %}" alt="priority" loading="lazy">
+                <div class="priority-item-tite">Fast shipping</div>
+                <div class="priority-item-subtitle">Delivery within three to four working days</div>
+            </div>
+            <div class="priority-item">
+                <img src="{% static '/assets/trade.png' %}" alt="priority" loading="lazy">
+                <div class="priority-item-tite">Affordable prices</div>
+                <div class="priority-item-subtitle">Quality Play, Affordable Wellness for Every Family.</div>
+            </div>
+            <div class="priority-item">
+                <img src="{% static '/assets/customer-service.png' %}" alt="priority" loading="lazy">
+                <div class="priority-item-tite">Support</div>
+                <div class="priority-item-subtitle">Any question? We are happy to help you</div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'include/footer.html' %}
+{% endblock %}

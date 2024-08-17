@@ -1,0 +1,64 @@
+{% load static %}
+<nav>
+        <div class="navabar">
+            <div class="navbar-content">
+                <div class="navbar-logo">
+                    <a href="/"><img src="{% static '/assets/logo.png' %}" alt="logo"></a>
+                </div>
+                <div class="navbar-items">
+                    <ul>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'categories' %}">Categories</a></li>
+                        <li><a href="{% url 'all' %}">All products</a></li>
+                    </ul>
+                </div>
+                <div class="nav-sb">
+                    <div class="nav-search">
+                        <form action="{% url 'all' %}" method="get">
+                            <div class="container">
+                                <input checked="" class="checkbox" type="checkbox">
+                                <div class="mainbox">
+                                    <div class="iconContainer">
+                                        <svg viewBox="0 0 512 512" height="1em" xmlns="http://www.w3.org/2000/svg"
+                                            class="search_icon">
+                                            <path
+                                                d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <input name="q" class="search_input" placeholder="search" type="text" value="{{ search_query }}">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="nav-basket">
+                        <button id="showBlockButton"><img src="{% static '/assets/shopping-bag.png' %}" alt="shop"></button>
+                    </div>
+                </div>
+                <div class="sidebar">
+                    <input type="checkbox" id="toggleSidebar">
+                    <label class="hamburger" for="toggleSidebar">
+                        <svg viewBox="0 0 32 32">
+                            <path class="line line-top-bottom"
+                                d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22">
+                            </path>
+                            <path class="line" d="M7 16 27 16"></path>
+                        </svg>
+                    </label>
+                    <div class="sidebar-content">
+                        <div class="sidebar-logo">
+                            <img src="{% static '/assets/logo.png' %}" alt="logo">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </div>
+                        <div class="sidebar-items">
+                            <ul>
+                                <li><a href="{% url 'home' %}">Home</a></li>
+                                <li><a href="{% url 'categories' %}">categories</a></li>
+                                <li><a href="{% url 'all' %}">All products</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>

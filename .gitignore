@@ -1,0 +1,43 @@
+*.orig
+*.rej
+*~
+*.pyc
+*.log
+*_flymake.py
+*.swp
+*.swo
+*.swn
+*.swm
+*.sql
+*output-yui*
+*.pid
+*.o
+.ropeproject
+tests/*.err
+*.DS_Store
+
+
+# Python bytecode
+__pycache__
+*.py[cod]
+
+# ssl
+.well-known/
+
+# static 
+TiniesLB/staticfiles/
+TiniesLB/media/
+
+.idea/
+
+# local settings 
+TiniesLB/TiniesLB/local.py
+
+# Environments 
+.env 
+.venv 
+env/ 
+venv/ 
+ENV/ 
+env.bak/ 
+venv.bak/ 

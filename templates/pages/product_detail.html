@@ -1,0 +1,121 @@
+<!-- pages/product_detail.html -->
+{% extends '_base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block body %}
+    {% include 'include/navbar.html' %}
+
+    <div id="hiddenBlock" class="hidden-block">
+        {% include 'include/cart.html' %}
+    </div>
+
+    <section>
+        <div class="detail">
+            <div class="detail-content">
+                <div class="detail-top">
+                    <div class="detail-img">
+                        <div class="detail-img-more">
+                            <ul>
+                                 <li><button onclick="changeImage('{% if product.image1 %}{{ product.image1.url }}{% else %}{% static 'assets/fluffy-toy-texture-close-up.jpg' %}{% endif %}')"><img
+                                            src="{% if product.image1 %}{{ product.image1.url }}{% else %}{% static 'assets/fluffy-toy-texture-close-up.jpg' %}{% endif %}" alt="product"></button></li>
+                                {% if product.image2 %}
+                                <li>
+                                    <button onclick="changeImage('{{ product.image2.url }}')">
+                                        <img src="{{ product.image2.url }}" alt="">
+                                    </button>
+                                </li>
+                            {% endif %}
+                            {% if product.image3 %}
+                                <li>
+                                    <button onclick="changeImage('{{ product.image3.url }}')">
+                                        <img src="{{ product.image3.url }}" alt="">
+                                    </button>
+                                </li>
+                            {% endif %}
+                            {% if product.image4 %}
+                                <li>
+                                    <button onclick="changeImage('{{ product.image4.url }}')">
+                                        <img src="{{ product.image4.url }}" alt="">
+                                    </button>
+                                </li>
+                            {% endif %}
+                            </ul>
+                        </div>
+                        <div class="detail-img-main">
+                            <img id="mainImage" src="{% if product.image1 %}{{ product.image1.url }}{% else %}{% static 'assets/fluffy-toy-texture-close-up.jpg' %}{% endif %}" alt="product">
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-title-detail">{{ product.header }}</div>
+                        <div class="product-order">
+                            <div class="inline-detail product-availability">
+                                <p>AVAILABILITY:</p>
+                                {% if product.in_stock %}
+                                    <span style="color: #1AB5A2;">IN STOCK</span>
+                                {% else %}
+                                    <span style="color: #FF0000;">OUT OF STOCK</span>
+                                {% endif %}
+                            </div>
+                            <div class="inline-detail" style="margin-top: 14px;">
+                                <div class="product-price-detail">${{ product.price }}</div>
+                                <button id="confirm-add-to-cart" class="open-confirmation-popup" data-menu-item="{{ product.id }}"><i class="fa-solid fa-cart-shopping"></i></button>
+                                <div id="confirmation-popup-{{ product.id }}" class="popup">
+                                <div class="popup-content">
+                                    <p>Are you sure you want to add this item to the cart?</p>
+                                    <button class="addToCartBtn popup-btn" data-menu-item="{{ product.id }}">Yes</button>
+                                    <button class="popup-btn cancel-add-to-cart">No</button>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="available-colors">
+                                <h4>Available colors</h4>
+                                <div class="inline-detail">
+                                    {% for color in product.colors.all %}
+                                        <div class="detail-color" style="background: {{ color.color }};"></div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-description">
+                    <h1>Product description</h1>
+                    <p>{{ product.description }}</p>
+                </div>
+
+                <div class="detail-most-like">
+                    <h1>MORE FROM THIS COLLECTION</h1>
+                    <div class="products-group">
+                        {% for product in recent_products %}
+                         <div class="product-box menu-item" data-menu-item-id="{{ product.id }}">
+                            <div class="sellers-box-img" style="background: url({% if product.image1 %}{{ product.image1.url }}{% else %}{% static 'assets/fluffy-toy-texture-close-up.jpg' %}{% endif %});"> </div>
+                            <div class="sellers-box-bottom">
+                                <div class="sellers-box-t">
+                                    <div class="inline-detail"><span class="sellers-box-dollar">$</span><div class="sellers-box-price" data-menu-item-price="{{ product.price }}">{{ product.price }}</div></div>
+                                    <button id="confirm-add-to-cart" class="open-confirmation-popup" data-menu-item="{{ product.id }}"><i class="fa-solid fa-cart-shopping"></i></button>
+                                </div>
+                                <div class="sellers-box-b">
+                                    <div class="sellers-box-title" data-menu-item-name="{{ product.header }}"><a href="{% url 'product_detail' slug=product.slug %}">{{ product.header }}</a></div>
+                                </div>
+                            </div>
+                            <div id="confirmation-popup-{{ product.id }}" class="popup">
+                                <div class="popup-content">
+                                    <p>Are you sure you want to add this item to the cart?</p>
+                                    <button class="addToCartBtn popup-btn" data-menu-item="{{ product.id }}">Yes</button>
+                                    <button class="popup-btn cancel-add-to-cart">No</button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'include/footer.html' %}
+
+{% endblock %}

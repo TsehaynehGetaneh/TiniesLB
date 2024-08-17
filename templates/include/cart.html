@@ -1,0 +1,23 @@
+{% load static %}
+ <div class="cart-content cartContent" id="cartContent">
+            <div class="cart-top">
+                <div class="cart-close">
+                    <button id="hideBlockButton"><img src="{% static '/assets/cross.png' %}" alt="close"></button>
+                </div>
+            </div>
+            <div class="cart-products-list shopping-cart">
+                <div class="cart-items-list" id="cart-products"></div>
+            </div>
+                <div class="cart-bottom">
+                    <div class="cart-bottom-l">
+                        <div class="cart-total-count">THERE ARE <span></span> ITEMS IN YOUR CART</div>
+                        <div class="cart-total-price"><span id="total-price"></span></div>
+                    </div>
+                    <div class="cart-bottom-r">
+                        <a href="{% url 'checkout' %}">
+                            <div class="cart-bottom-cehkout"><img src="{% static './assets/box.png' %}" alt="box"> Proceed to checkout
+                            </div>
+                        </a>
+                    </div>
+                </div>
+        </div>
