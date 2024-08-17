@@ -16,7 +16,6 @@
 tests/*.err
 *.DS_Store
 
-
 # Python bytecode
 __pycache__
 *.py[cod]
@@ -41,3 +40,15 @@ venv/
 ENV/ 
 env.bak/ 
 venv.bak/ 
+
+# VS Code
+.vscode/
+
+# mypy
+.mypy_cache/
+
+# pytest
+.pytest_cache/
+
+# SQLite database
+db.sqlite3
