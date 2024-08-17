@@ -24,8 +24,8 @@ __pycache__
 .well-known/
 
 # static 
-TiniesLB/staticfiles/
-TiniesLB/media/
+staticfiles/
+media/
 
 .idea/
 
