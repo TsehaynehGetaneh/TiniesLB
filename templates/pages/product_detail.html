@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="product-info">
-                        <div class="product-title-detail">{{ product.header }}</div>
+                        <div class="product-title-detail">{{ product.name }}</div>
                         <div class="product-order">
                             <div class="inline-detail product-availability">
                                 <p>AVAILABILITY:</p>
@@ -98,7 +98,7 @@
                                     <button id="confirm-add-to-cart" class="open-confirmation-popup" data-menu-item="{{ product.id }}"><i class="fa-solid fa-cart-shopping"></i></button>
                                 </div>
                                 <div class="sellers-box-b">
-                                    <div class="sellers-box-title" data-menu-item-name="{{ product.header }}"><a href="{% url 'product_detail' slug=product.slug %}">{{ product.header }}</a></div>
+                                    <div class="sellers-box-title" data-menu-item-name="{{ product.name}}"><a href="{% url 'product_detail' slug=product.slug %}">{{ product.name}}</a></div>
                                 </div>
                             </div>
                             <div id="confirmation-popup-{{ product.id }}" class="popup">

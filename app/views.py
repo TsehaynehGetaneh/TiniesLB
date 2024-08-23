@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView, DetailView
 from django.shortcuts import get_object_or_404
-from .models import Product, Category
+from .models import Product, Category, Brand, SubCategory
 from django.views.decorators.csrf import csrf_exempt
 import requests
 import json
@@ -38,19 +38,19 @@ class AllProducts(TemplateView):
 
         # Filter products
         brand_filter = self.request.GET.get('brand')
-        age_filter = self.request.GET.get('age')
+        subcategory_filter = self.request.GET.get('subcategory')
         search_query = self.request.GET.get('q')
 
         if brand_filter:
-            products = products.filter(product_brand=brand_filter)
-        if age_filter:
-            products = products.filter(age_category=age_filter)
+            products = products.filter(brand__id=brand_filter)
+        if subcategory_filter:
+            products = products.filter(subcategory__id=subcategory_filter)
         if search_query:
             products = products.filter(
-                Q(header__icontains=search_query) | Q(product_brand__icontains=search_query)
+                Q(name__icontains=search_query) | Q(brand__name__icontains=search_query)
             )
 
-            # Sorting functionality
+        # Sorting functionality
         sort_by = self.request.GET.get('sort_by')
 
         if sort_by == 'price_asc':
@@ -66,11 +66,11 @@ class AllProducts(TemplateView):
         page_obj = paginator.get_page(page_number)
 
         context['products'] = products
-        context['unique_brands'] = Product.objects.values_list('product_brand', flat=True).distinct()
-        context['unique_age_categories'] = Product.objects.values_list('age_category', flat=True).distinct()
+        context['unique_brands'] = Brand.objects.values_list('id', 'name').distinct()
+        context['unique_subcategories'] = SubCategory.objects.values_list('id', 'name').distinct()
         context['search_query'] = search_query
         context['current_brand_filter'] = brand_filter 
-        context['current_age_filter'] = age_filter
+        context['current_subcategory_filter'] = subcategory_filter
         context['page_obj'] = page_obj
 
         return context
@@ -109,20 +109,20 @@ class ProductsByCategory(TemplateView):
         context = super().get_context_data(**kwargs)
         category_slug = kwargs.get('category_slug')
         category = get_object_or_404(Category, slug=category_slug)
-        products = Product.objects.filter(category=category)
+        products = Product.objects.filter(categories=category)
 
         # Filter products
         brand_filter = self.request.GET.get('brand')
-        age_filter = self.request.GET.get('age')
+        subcategory_filter = self.request.GET.get('subcategory')
         search_query = self.request.GET.get('q')
 
         if brand_filter:
-            products = products.filter(product_brand=brand_filter)
-        if age_filter:
-            products = products.filter(age_category=age_filter)
+            products = products.filter(brand__id=brand_filter)
+        if subcategory_filter:
+            products = products.filter(subcategory__id=subcategory_filter)
         if search_query:
             products = products.filter(
-                Q(header__icontains=search_query) | Q(product_brand__icontains=search_query)
+                Q(name__icontains=search_query) | Q(brand__name__icontains=search_query)
             )
 
         # Sorting functionality
@@ -140,16 +140,15 @@ class ProductsByCategory(TemplateView):
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 
-        context['unique_brands'] = Product.objects.values_list('product_brand', flat=True).distinct()
-        context['unique_age_categories'] = Product.objects.values_list('age_category', flat=True).distinct()
+        context['unique_brands'] = Brand.objects.all()
+        context['unique_subcategories'] = SubCategory.objects.all()
         context['search_query'] = search_query
         context['current_brand_filter'] = brand_filter  
-        context['current_age_filter'] = age_filter
+        context['current_subcategory_filter'] = subcategory_filter
 
         context['category'] = category
         context['page_obj'] = page_obj
         return context
-
 
 def checkout_view(request):
     return render(request, 'pages/checkout.html')
@@ -188,8 +187,8 @@ def send_to_telegram_view(request):
 
 
 def send_to_telegram(message):
-    bot_token = '7175554526:AAHnZJxRFuXtE8AEBPBc9pGDU5I3gHxuJIk'
-    chat_id = '-1001915097883'
+    bot_token = 'YOUR_BOT_TOKEN'
+    chat_id = 'YOUR_CHAT_ID'
 
     telegram_api_url = f'https://api.telegram.org/bot{bot_token}/sendMessage'
     params = {

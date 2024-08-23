@@ -1,13 +1,18 @@
 from django.contrib import admin
-from .models import Product,Color, BrandCategory, Category
+from .models import Product, Color, Brand, Category, SubCategory
 from import_export.admin import ImportExportModelAdmin
 from .forms import ColorFieldWithName
 
 @admin.register(Product)
-class userdat(ImportExportModelAdmin):
-    list_display = ('header', 'price', 'product_brand', 'company_name', 'age_category', 'in_stock', 'description')
-    search_fields = ('header', 'company_name', 'product_brand')
-    list_filter = ('in_stock', 'header', 'company_name')
+class ProductAdmin(ImportExportModelAdmin):
+    list_display = ('name', 'price', 'brand', 'get_company_name', 'in_stock', 'description')
+    search_fields = ('name', 'brand__name')
+    list_filter = ('in_stock', 'name', 'brand__name')
+
+    def get_company_name(self, obj):
+        return obj.brand.name
+
+    get_company_name.short_description = 'Company Name'
 
 @admin.register(Color)
 class ColorAdmin(admin.ModelAdmin):
@@ -20,14 +25,19 @@ class ColorAdmin(admin.ModelAdmin):
 
     get_color_name_display.short_description = 'Color Name'
 
-
-@admin.register(BrandCategory)
-class AllBrandsAdmin(admin.ModelAdmin):
+@admin.register(Brand)
+class BrandAdmin(admin.ModelAdmin):
     list_display = ('name', )
     search_fields = ('name', )
 
 @admin.register(Category)
-class AllCategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', )
-    prepopulated_fields = {'slug' : ( 'name',)}
+    prepopulated_fields = {'slug': ('name',)}
     search_fields = ('id', 'name', )
+
+@admin.register(SubCategory)
+class SubCategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'category')
+    search_fields = ('id', 'name', 'category__name')
+    list_filter = ('category__name',)
