@@ -10,9 +10,10 @@ SECRET_KEY = 'django-insecure-tkzzp!4-0a2bjku752iqp9y^fop8!lfw!pimc3gbf&mbu*&r0!
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'ae20-102-218-50-64.ngrok-free.app',  # Add your ngrok URL here
+    "https://www.tinieslb.com/",
     'localhost',
     '127.0.0.1',
+    'ae20-102-218-50-64.ngrok-free.app',  # Add your ngrok URL here
 ]
 
 
