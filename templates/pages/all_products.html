@@ -18,13 +18,23 @@
                 <ul class="desktop-filter">
                     <li><a href="?">All</a></li>
                     {% for brand_id, brand_name in unique_brands %}
-                    <li><a href="?brand={{ brand_id }}{% if request.GET.subcategory %}&subcategory={{ request.GET.subcategory }}{% endif %}">{{ brand_name }}</a></li>
+                        <li><a href="?brand={{ brand_id }}{% if request.GET.subcategory %}&subcategory={{ request.GET.subcategory }}{% endif %}">{{ brand_name }}</a></li>
                     {% endfor %}
+                    <ul id="more-brands" class="more-items">
+                        {% for brand_id, brand_name in all_brands %}
+                            {% if forloop.counter > 5 %}
+                                <li class="hidden"><a href="?brand={{ brand_id }}{% if request.GET.subcategory %}&subcategory={{ request.GET.subcategory }}{% endif %}">{{ brand_name }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
                 </ul>
+                <div class="view-more-container">
+                    <button class="view-more-btn" data-list="brands">View More</button>
+                </div>
                 <ul class="swiper-container scrolling-container mobile-filter">
                     <div class="swiper-wrapper">
-                        {% for brand_id, brand_name in unique_brands %}
-                        <div class="swiper-slide element"><a href="?brand={{ brand_id }}{% if request.GET.subcategory %}&subcategory={{ request.GET.subcategory }}{% endif %}">{{ brand_name }}</a></div>
+                        {% for brand_id, brand_name in all_brands %}
+                            <div class="swiper-slide element"><a href="?brand={{ brand_id }}{% if request.GET.subcategory %}&subcategory={{ request.GET.subcategory }}{% endif %}">{{ brand_name }}</a></div>
                         {% endfor %}
                     </div>
                 </ul>
@@ -34,13 +44,23 @@
                 <ul class="desktop-filter">
                     <li><a href="?">All</a></li>
                     {% for subcategory_id, subcategory_name in unique_subcategories %}
-                    <li><a href="?subcategory={{ subcategory_id }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">{{ subcategory_name }}</a></li>
+                        <li><a href="?subcategory={{ subcategory_id }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">{{ subcategory_name }}</a></li>
                     {% endfor %}
+                    <ul id="more-subcategories" class="more-items">
+                        {% for subcategory_id, subcategory_name in all_subcategories %}
+                            {% if forloop.counter > 5 %}
+                                <li class="hidden"><a href="?subcategory={{ subcategory_id }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">{{ subcategory_name }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
                 </ul>
+                <div class="view-more-container">
+                    <button class="view-more-btn" data-list="subcategories">View More</button>
+                </div>
                 <ul class="swiper-container scrolling-container mobile-filter">
                     <div class="swiper-wrapper">
-                        {% for subcategory_id, subcategory_name in unique_subcategories %}
-                        <div class="swiper-slide element"><a href="?subcategory={{ subcategory_id }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">{{ subcategory_name }}</a></div>
+                        {% for subcategory_id, subcategory_name in all_subcategories %}
+                            <div class="swiper-slide element"><a href="?subcategory={{ subcategory_id }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">{{ subcategory_name }}</a></div>
                         {% endfor %}
                     </div>
                 </ul>
@@ -48,25 +68,25 @@
         </div>
 
         <div style="width: 100%;">
-             <div class="sorting-buttons">
+            <div class="sorting-buttons">
                 <label class="dropdown">
                     <div class="dd-button">
-                          Sort products
+                        Sort products
                     </div>
 
                     <input type="checkbox" class="dd-input" id="test">
 
-                      <ul class="dd-menu">
+                    <ul class="dd-menu">
                         <li>
-                           <a href="?sort_by=price_asc{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.subcategory %}&subcategory={{ request.GET.subcategory }}{% endif %}">Low to High</a>
+                            <a href="?sort_by=price_asc{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.subcategory %}&subcategory={{ request.GET.subcategory }}{% endif %}">Low to High</a>
                         </li>
                         <li>
-                           <a href="?sort_by=price_desc{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.subcategory %}&subcategory={{ request.GET.subcategory }}{% endif %}">High to Low</a>
+                            <a href="?sort_by=price_desc{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.subcategory %}&subcategory={{ request.GET.subcategory }}{% endif %}">High to Low</a>
                         </li>
                         <li>
-                             <a href="?sort_by=date_added{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.subcategory %}&subcategory={{ request.GET.subcategory }}{% endif %}">Sort by Date Added</a>
+                            <a href="?sort_by=date_added{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}{% if request.GET.subcategory %}&subcategory={{ request.GET.subcategory }}{% endif %}">Sort by Date Added</a>
                         </li>
-                      </ul>
+                    </ul>
 
                 </label>
 

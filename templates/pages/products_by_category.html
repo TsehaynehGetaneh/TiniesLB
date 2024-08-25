@@ -17,14 +17,24 @@
                 <div class="all-filter-item-title">BRANDS</div>
                 <ul class="desktop-filter">
                     <li><a href="?">All</a></li>
-                    {% for brand in unique_brands %}
-                    <li><a href="?brand={{ brand.id }}{% if request.GET.subcategory %}&subcategory={{ request.GET.subcategory }}{% endif %}">{{ brand.name }}</a></li>
+                    {% for brand_id, brand_name in unique_brands %}
+                        <li><a href="?brand={{ brand_id }}{% if request.GET.subcategory %}&subcategory={{ request.GET.subcategory }}{% endif %}">{{ brand_name }}</a></li>
                     {% endfor %}
+                    <ul id="more-brands" class="more-items">
+                        {% for brand_id, brand_name in all_brands %}
+                            {% if forloop.counter > 5 %}
+                                <li class="hidden"><a href="?brand={{ brand_id }}{% if request.GET.subcategory %}&subcategory={{ request.GET.subcategory }}{% endif %}">{{ brand_name }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
                 </ul>
+                <div class="view-more-container">
+                    <button class="view-more-btn" data-list="brands">View More</button>
+                </div>
                 <ul class="swiper-container scrolling-container mobile-filter">
                     <div class="swiper-wrapper">
-                        {% for brand in unique_brands %}
-                        <div class="swiper-slide element"><a href="?brand={{ brand.id }}{% if request.GET.subcategory %}&subcategory={{ request.GET.subcategory }}{% endif %}">{{ brand.name }}</a></div>
+                        {% for brand_id, brand_name in all_brands %}
+                            <div class="swiper-slide element"><a href="?brand={{ brand_id }}{% if request.GET.subcategory %}&subcategory={{ request.GET.subcategory }}{% endif %}">{{ brand_name }}</a></div>
                         {% endfor %}
                     </div>
                 </ul>
@@ -33,14 +43,24 @@
                 <div class="all-filter-item-title">SUBCATEGORIES</div>
                 <ul class="desktop-filter">
                     <li><a href="?">All</a></li>
-                    {% for subcategory in unique_subcategories %}
-                    <li><a href="?subcategory={{ subcategory.id }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">{{ subcategory.name }}</a></li>
+                    {% for subcategory_id, subcategory_name in unique_subcategories %}
+                        <li><a href="?subcategory={{ subcategory_id }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">{{ subcategory_name }}</a></li>
                     {% endfor %}
+                    <ul id="more-subcategories" class="more-items">
+                        {% for subcategory_id, subcategory_name in all_subcategories %}
+                            {% if forloop.counter > 5 %}
+                                <li class="hidden"><a href="?subcategory={{ subcategory_id }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">{{ subcategory_name }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
                 </ul>
+                <div class="view-more-container">
+                    <button class="view-more-btn" data-list="subcategories">View More</button>
+                </div>
                 <ul class="swiper-container scrolling-container mobile-filter">
                     <div class="swiper-wrapper">
-                        {% for subcategory in unique_subcategories %}
-                        <div class="swiper-slide element"><a href="?subcategory={{ subcategory.id }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">{{ subcategory.name }}</a></div>
+                        {% for subcategory_id, subcategory_name in all_subcategories %}
+                            <div class="swiper-slide element"><a href="?subcategory={{ subcategory_id }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">{{ subcategory_name }}</a></div>
                         {% endfor %}
                     </div>
                 </ul>

@@ -27,7 +27,6 @@ class HomePage(TemplateView):
 
         return context
 
-
 @method_decorator(cache_page(60 * 15), name='dispatch')
 class AllProducts(TemplateView):
     template_name = 'pages/all_products.html'
@@ -61,20 +60,25 @@ class AllProducts(TemplateView):
             products = products.order_by('-id')
 
         # Pagination
-        paginator = Paginator(products, 16) 
+        paginator = Paginator(products, 16)
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 
-        context['products'] = products
-        context['unique_brands'] = Brand.objects.values_list('id', 'name').distinct()
-        context['unique_subcategories'] = SubCategory.objects.values_list('id', 'name').distinct()
+        # Fetch only the first 5 brands and subcategories
+        all_brands = Brand.objects.values_list('id', 'name').distinct()
+        all_subcategories = SubCategory.objects.values_list('id', 'name').distinct()
+        
+        context['products'] = page_obj
+        context['unique_brands'] = all_brands[:5]  # Only first 5 brands
+        context['all_brands'] = all_brands  # All brands for "View More" functionality
+        context['unique_subcategories'] = all_subcategories[:5]  # Only first 5 subcategories
+        context['all_subcategories'] = all_subcategories  # All subcategories for "View More" functionality
         context['search_query'] = search_query
-        context['current_brand_filter'] = brand_filter 
+        context['current_brand_filter'] = brand_filter
         context['current_subcategory_filter'] = subcategory_filter
         context['page_obj'] = page_obj
 
         return context
-
 
 class ProductDetail(DetailView):
     model = Product
@@ -101,7 +105,8 @@ class AllCategory(TemplateView):
 
         context['all_categories'] = all_categories
         return context
-
+    
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class ProductsByCategory(TemplateView):
     template_name = 'pages/products_by_category.html'
 
@@ -136,20 +141,26 @@ class ProductsByCategory(TemplateView):
             products = products.order_by('-id')
 
         # Pagination
-        paginator = Paginator(products, 10)  # Show 10 products per page.
+        paginator = Paginator(products, 16)
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
 
-        context['unique_brands'] = Brand.objects.all()
-        context['unique_subcategories'] = SubCategory.objects.all()
-        context['search_query'] = search_query
-        context['current_brand_filter'] = brand_filter  
-        context['current_subcategory_filter'] = subcategory_filter
+        # Fetch only the first 5 brands and subcategories
+        all_brands = Brand.objects.values_list('id', 'name').distinct()
+        all_subcategories = SubCategory.objects.values_list('id', 'name').distinct()
 
+        context['products'] = page_obj
+        context['unique_brands'] = all_brands[:5]  # Only first 5 brands
+        context['all_brands'] = all_brands  # All brands for "View More" functionality
+        context['unique_subcategories'] = all_subcategories[:5]  # Only first 5 subcategories
+        context['all_subcategories'] = all_subcategories  # All subcategories for "View More" functionality
+        context['search_query'] = search_query
+        context['current_brand_filter'] = brand_filter
+        context['current_subcategory_filter'] = subcategory_filter
         context['category'] = category
         context['page_obj'] = page_obj
-        return context
 
+        return context
 def checkout_view(request):
     return render(request, 'pages/checkout.html')
 
@@ -184,8 +195,6 @@ def send_to_telegram_view(request):
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
 
-
-
 def send_to_telegram(message):
     bot_token = 'YOUR_BOT_TOKEN'
     chat_id = 'YOUR_CHAT_ID'
@@ -200,3 +209,4 @@ def send_to_telegram(message):
 
     if response.status_code != 200:
         print(f"Failed to send message to Telegram. Status code: {response.status_code}")
+        

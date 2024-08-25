@@ -35,9 +35,6 @@ if (shipOption) {
     });
 }
 
-
-
-
 document.addEventListener('DOMContentLoaded', function () {
     const showButton = document.getElementById('showBlockButton');
     const hideButton = document.getElementById('hideBlockButton');
@@ -156,6 +153,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         localStorage.setItem('cart', JSON.stringify(cart));
         updateCartDisplay(cart);
+
+        hiddenBlock.style.display = 'block'; // display the cart
     }
 
 
@@ -412,20 +411,13 @@ document.addEventListener('DOMContentLoaded', function () {
         if (parts.length === 2) return parts.pop().split(";").shift();
     }
 
-
-    // -------------------------------------------------------------
-
-
-
     if (showButton & hideButton) {
         showButton.addEventListener('click', function () {
             hiddenBlock.style.display = 'block';
-            // body.classList.add('blur-background');
         });
 
         hideButton.addEventListener('click', function () {
             hiddenBlock.style.display = 'none';
-            // body.classList.remove('blur-background');
         });
     }
 });
@@ -446,4 +438,27 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     });
 
+});
+
+
+// View more brands and subcategories section
+document.addEventListener('DOMContentLoaded', function() {
+    const viewMoreButtons = document.querySelectorAll('.view-more-btn');
+
+    viewMoreButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const listType = button.getAttribute('data-list');
+            const listId = listType === 'brands' ? '#more-brands' : '#more-subcategories';
+            const list = document.querySelector(listId);
+            const hiddenItems = list.querySelectorAll('li.hidden');
+
+            for (let i = 0; i < 5 && i < hiddenItems.length; i++) {
+                hiddenItems[i].classList.remove('hidden');
+            }
+
+            if (list.querySelectorAll('li.hidden').length === 0) {
+                button.style.display = 'none';
+            }
+        });
+    });
 });

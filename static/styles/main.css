@@ -1518,6 +1518,37 @@ body {
     }
 }
 
+/* view more brands and subcategories starts here *
+
+//* Hide extra items initially */
+.hidden {
+    display: none;
+}
+
+/* Hide "View More" buttons on devices smaller than 999px */
+@media (max-width: 999px) {
+    .view-more-container {
+        display: none;
+    }
+}
+
+/* Style for the "View More" button */
+.view-more-btn {
+    background-color: #D06397;
+    color: #fff;
+    border: none;
+    padding: 5px 15px;
+    cursor: pointer;
+    border-radius: 50px;
+    font-size: 16px;
+}
+
+.view-more-btn:hover {
+    background-color: #db619c;
+}
+
+/* view more brands and subcategories ends here */
+
 
 /* Ensure parent containers do not cut off content */
 .all-filter-item {
